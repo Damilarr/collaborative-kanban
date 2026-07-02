@@ -9,6 +9,7 @@ interface KanbanBoardProps {
   onDropTask: (taskId: string, targetColumn: ColumnType) => void;
   onDeleteTask: (id: string) => void;
   onResetBoard: () => void;
+  onOpenMobileSidebar?: () => void;
 }
 
 type SortOption = "none" | "title" | "dueDate" | "priority" | "comments";
@@ -18,6 +19,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
   onDropTask,
   onDeleteTask,
   onResetBoard,
+  onOpenMobileSidebar,
 }) => {
   const router = useRouter();
   const pathname = usePathname();
@@ -103,13 +105,29 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
       {/* Top Header */}
       <header className="bg-white px-6 md:px-10 py-6 shrink-0">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div className="space-y-1">
-            <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#1A1C1E] font-sans">
-              Tasks
-            </h1>
-            <p className="text-sm text-[#5C6370] font-medium">
-              Organize your work and collaborate with your team
-            </p>
+          <div className="flex items-center gap-3">
+            {onOpenMobileSidebar && (
+              <button
+                onClick={onOpenMobileSidebar}
+                className="p-2 -ml-2 text-[#5C6370] hover:text-[#1A1C1E] hover:bg-gray-100 rounded-lg md:hidden cursor-pointer shrink-0"
+                type="button"
+                aria-label="Open navigation menu"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <line x1="4" y1="6" x2="20" y2="6" />
+                  <line x1="4" y1="12" x2="20" y2="12" />
+                  <line x1="4" y1="18" x2="20" y2="18" />
+                </svg>
+              </button>
+            )}
+            <div className="space-y-1">
+              <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#1A1C1E] font-sans">
+                Tasks
+              </h1>
+              <p className="text-sm text-[#5C6370] font-medium">
+                Organize your work and collaborate with your team
+              </p>
+            </div>
           </div>
 
           <div className="flex items-center gap-3 self-stretch sm:self-auto shrink-0 select-none">
@@ -223,7 +241,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
       {/* Main Columns Workspace */}
       <div className="flex-1 overflow-x-auto p-6 md:p-10 select-none custom-scrollbar">
         {activeTab === "board" ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 h-full items-start min-w-[768px]">
+          <div className="flex md:grid md:grid-cols-3 gap-6 h-full items-start w-full snap-x snap-mandatory overflow-x-auto md:overflow-x-visible pb-4 md:pb-0 scroll-smooth">
             <KanbanColumn
               title="To-Do"
               columnType="todo"
