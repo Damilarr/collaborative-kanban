@@ -111,7 +111,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
               {onOpenMobileSidebar && (
                 <button
                   onClick={onOpenMobileSidebar}
-                  className="p-2 -ml-2 text-[#5C6370] hover:text-[#1A1C1E] hover:bg-gray-100 rounded-lg md:hidden cursor-pointer shrink-0"
+                  className="p-2 -ml-2 text-[#5C6370] hover:text-[#1A1C1E] hover:bg-gray-100 rounded-lg lg:hidden cursor-pointer shrink-0"
                   type="button"
                   aria-label="Open navigation menu"
                 >
@@ -147,9 +147,9 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
       </header>
 
       {/* Toolbar (Tabs & Controls) */}
-      <div className="bg-white px-6 md:px-10 border-b border-[#ECEEF0] flex flex-col sm:flex-row gap-0 sm:gap-4 items-stretch justify-between shrink-0 select-none min-h-[52px]">
+      <div className="bg-white px-6 md:px-10 border-b border-[#ECEEF0] flex flex-col lg:flex-row gap-0 lg:gap-4 items-stretch justify-between shrink-0 select-none min-h-[52px]">
         {/* View Tabs */}
-        <div className="flex items-stretch justify-between sm:justify-start gap-6 w-full sm:w-auto">
+        <div className="flex items-stretch justify-between lg:justify-start gap-6 w-full lg:w-auto">
           <div className="flex items-stretch gap-6">
             {[
               { id: "board", label: "Board", icon: BoardTabIcon },
@@ -162,7 +162,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as any)}
-                  className={`flex items-center gap-2 px-1 h-full border-b-2 -mb-[1px] text-[14px] font-semibold transition-all cursor-pointer py-3.5 sm:py-0 ${
+                  className={`flex items-center gap-2 px-1 h-full border-b-2 -mb-[1px] text-[14px] font-semibold transition-all cursor-pointer py-3.5 lg:py-0 ${
                     isActive
                       ? "border-brand-primary text-brand-primary font-bold"
                       : "border-transparent text-[#5C6370] hover:text-[#1A1C1E]"
@@ -178,7 +178,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
           {/* Mobile Filters Toggle Button */}
           <button
             onClick={() => setShowMobileFilters(!showMobileFilters)}
-            className={`sm:hidden flex items-center justify-center px-3 py-1.5 text-[#5C6370] hover:text-[#1A1C1E] active:scale-95 transition-all cursor-pointer self-center rounded-lg border my-2 ${
+            className={`lg:hidden flex items-center justify-center px-3 py-1.5 text-[#5C6370] hover:text-[#1A1C1E] active:scale-95 transition-all cursor-pointer self-center rounded-lg border my-2 ${
               showMobileFilters ? "bg-gray-100 border-gray-300 text-[#1A1C1E]" : "bg-white border-[#ECEEF0]"
             }`}
             title="Toggle search and filters"
@@ -189,7 +189,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
         </div>
 
         {/* Filter, Sort & Search */}
-        <div className={`flex-wrap items-center gap-4 py-3 sm:py-2.5 w-full sm:w-auto sm:flex border-t border-[#ECEEF0] sm:border-t-0 ${showMobileFilters ? "flex animate-slide-down" : "hidden"}`}>
+        <div className={`flex-wrap items-center gap-4 py-3 lg:py-2.5 w-full lg:w-auto lg:flex border-t border-[#ECEEF0] lg:border-t-0 ${showMobileFilters ? "flex animate-slide-down" : "hidden"}`}>
           {/* Reset Board button */}
           <button
             onClick={onResetBoard}
@@ -269,7 +269,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
       {/* Main Columns Workspace */}
       <div className="flex-1 overflow-x-auto p-6 md:p-10 select-none custom-scrollbar">
         {activeTab === "board" ? (
-          <div className="flex md:grid md:grid-cols-3 gap-6 h-full items-start w-full snap-x snap-mandatory overflow-x-auto md:overflow-x-visible pb-4 md:pb-0 scroll-smooth">
+          <div className="flex lg:grid lg:grid-cols-3 gap-6 h-full items-start w-full snap-x snap-mandatory overflow-x-auto lg:overflow-x-visible pb-4 lg:pb-0 scroll-smooth">
             <KanbanColumn
               title="To-Do"
               columnType="todo"
