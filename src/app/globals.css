@@ -1,26 +1,172 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #F8F9FA;
+  --foreground: #1A1C1E;
+  
+  --sidebar-bg: #FFFFFF;
+  --sidebar-border: #E9ECEF;
+  --card-bg: #FFFFFF;
+  --card-border: #ECEEF0;
+  
+  /* Brand color - Rust/Orange */
+  --brand-primary: #C5562E;
+  --brand-primary-hover: #A84521;
+  --brand-light: #FFF4F0;
+  --brand-border: #F37A4B;
+  
+  /* Status/Priority Colors */
+  --priority-low-bg: #E0F2FE;
+  --priority-low-text: #0369A1;
+  --priority-medium-bg: #F3E8FF;
+  --priority-medium-text: #6B21A8;
+  --priority-high-bg: #FFE4E6;
+  --priority-high-text: #9F1239;
+  
+  /* Column Dots */
+  --col-todo: #E0E2E5;
+  --col-progress: #F39C12;
+  --col-completed: #2ECC71;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@theme {
+  --color-brand-primary: var(--brand-primary);
+  --color-brand-primary-hover: var(--brand-primary-hover);
+  --color-brand-light: var(--brand-light);
+  --color-brand-border: var(--brand-border);
+  
+  --color-low-bg: var(--priority-low-bg);
+  --color-low-text: var(--priority-low-text);
+  --color-medium-bg: var(--priority-medium-bg);
+  --color-medium-text: var(--priority-medium-text);
+  --color-high-bg: var(--priority-high-bg);
+  --color-high-text: var(--priority-high-text);
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  overflow-x: hidden;
+}
+
+/* Scrollbar styles for Kanban columns */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #E2E8F0;
+  border-radius: 9999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #CBD5E1;
+}
+
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-card-fade-in {
+  animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.shimmer-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-effect::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.2) 20%,
+    rgba(255, 255, 255, 0.5) 60%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shimmer 2s infinite;
+  content: '';
+}
+
+.dark-shimmer-effect::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.05) 20%,
+    rgba(255, 255, 255, 0.1) 60%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shimmer 2s infinite;
+  content: '';
+}
+
+/* Glassmorphism utility */
+.glassmorphism {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Ensure clickable elements have cursor-pointer */
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
+a, button, select, input[type="checkbox"], input[type="radio"] {
+  cursor: pointer;
+}
+
+/* Drag and Drop visual styles */
+.drag-over {
+  border: 2px dashed var(--brand-primary) !important;
+  background-color: rgba(197, 86, 46, 0.04) !important;
+  transition: all 0.2s ease-in-out;
+}
+
+.card-dragging {
+  opacity: 0.4;
+  transform: scale(0.98);
 }
