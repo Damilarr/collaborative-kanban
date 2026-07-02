@@ -30,6 +30,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
   const [priorityFilter, setPriorityFilter] = useState<"all" | Priority>("all");
   const [sortBy, setSortBy] = useState<SortOption>("none");
   const [activeTab, setActiveTab] = useState<"board" | "list" | "table">("board");
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
 
   // Open "Create Task" modal by syncing with URL
   const handleOpenCreateModal = () => {
@@ -104,42 +105,44 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
     <div className="flex-1 flex flex-col overflow-hidden bg-[#F8F9FA]">
       {/* Top Header */}
       <header className="bg-white px-6 md:px-10 py-6 shrink-0">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div className="flex items-center gap-3">
-            {onOpenMobileSidebar && (
-              <button
-                onClick={onOpenMobileSidebar}
-                className="p-2 -ml-2 text-[#5C6370] hover:text-[#1A1C1E] hover:bg-gray-100 rounded-lg md:hidden cursor-pointer shrink-0"
-                type="button"
-                aria-label="Open navigation menu"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <line x1="4" y1="6" x2="20" y2="6" />
-                  <line x1="4" y1="12" x2="20" y2="12" />
-                  <line x1="4" y1="18" x2="20" y2="18" />
-                </svg>
-              </button>
-            )}
-            <div className="space-y-1">
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center justify-between w-full">
+            <div className="flex items-center gap-3">
+              {onOpenMobileSidebar && (
+                <button
+                  onClick={onOpenMobileSidebar}
+                  className="p-2 -ml-2 text-[#5C6370] hover:text-[#1A1C1E] hover:bg-gray-100 rounded-lg md:hidden cursor-pointer shrink-0"
+                  type="button"
+                  aria-label="Open navigation menu"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <line x1="4" y1="6" x2="20" y2="6" />
+                    <line x1="4" y1="12" x2="20" y2="12" />
+                    <line x1="4" y1="18" x2="20" y2="18" />
+                  </svg>
+                </button>
+              )}
               <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#1A1C1E] font-sans">
                 Tasks
               </h1>
-              <p className="text-sm text-[#5C6370] font-medium">
-                Organize your work and collaborate with your team
-              </p>
+            </div>
+
+            {/* Create Task Button */}
+            <div className="flex items-center select-none shrink-0">
+              <button
+                onClick={handleOpenCreateModal}
+                className="flex items-center justify-center gap-1.5 px-4.5 py-2.5 bg-brand-primary hover:bg-brand-primary-hover active:scale-95 text-white text-[14px] font-semibold rounded-xl transition-all shadow-sm cursor-pointer"
+              >
+                <PlusIcon size={16} />
+                <span className="hidden sm:inline">Create New Task</span>
+                <span className="sm:hidden">Create Task</span>
+              </button>
             </div>
           </div>
 
-          <div className="flex items-center gap-3 self-stretch sm:self-auto shrink-0 select-none">
-            {/* Create Task Button */}
-            <button
-              onClick={handleOpenCreateModal}
-              className="flex items-center justify-center gap-1.5 px-4.5 py-2.5 bg-brand-primary hover:bg-brand-primary-hover active:scale-95 text-white text-[14px] font-semibold rounded-xl transition-all shadow-sm cursor-pointer"
-            >
-              <PlusIcon size={16} />
-              <span>Create New Task</span>
-            </button>
-          </div>
+          <p className="text-sm text-[#5C6370] font-medium leading-normal">
+            Organize your work and collaborate with your team
+          </p>
         </div>
       </header>
 
