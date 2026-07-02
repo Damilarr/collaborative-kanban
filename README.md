@@ -1,36 +1,90 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Alignio Tasks — Collaborative Kanban Board
 
-## Getting Started
+Alignio Tasks is a high-fidelity, fully responsive Kanban board application built using **Next.js**, **React 19**, and **Tailwind CSS**. It is designed to model professional task workflows with a premium design aesthetic, featuring native drag-and-drop mechanics, client-side validation, and URL-synchronized modal state.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Architectural Decisions
+
+### 1. Framework: Next.js (App Router) & React 19
+The project leverages the Next.js App Router for page layouts and standard client-side state hooks. Using React 19 keeps the app aligned with the latest performance and rendering enhancements. The application structure remains clean and easy to scale:
+- `page.tsx` acts as the entry shell using a `<Suspense>` wrapper.
+- Modular component design separates the board wrapper, columns, cards, and modal forms.
+
+### 2. Zero-Dependency Custom Drag-and-Drop
+Instead of importing large, opinionated third-party libraries (e.g., `react-beautiful-dnd`, `@dnd-kit`, or `react-dnd`), we implemented a native **HTML5 Drag and Drop** interface.
+- **Why?** It ensures minimal JS bundle overhead, provides direct control over native styling triggers, and runs at native browser speeds.
+- **Details:** Uses event handlers like `onDragStart`, `onDragEnd`, `onDragOver`, and `onDrop`. Column drop zones outline themselves with a dashed border and an orange-tinted background highlight when cards are hovered over them. Cards scale down and fade slightly when dragged.
+
+### 3. URL-Synchronized Modal State
+The state of the **Create Task** and **Edit Task** modals is synchronized with the browser's URL search parameters:
+- `?modal=create-task` opens the creation form.
+- `?modal=edit-task&taskId=task-id` opens the edit form for that specific task.
+- **Why?** Deep-linking ensures that page reloads or shared links preserve the modal's open state, improving usability and preventing state loss when refreshing.
+
+### 4. Client-Side Persistent State via Custom Hooks
+The core business logic of managing tasks is centralized in `src/hooks/useKanbanData.ts`.
+- State operations (adding, editing, updating columns, and deleting tasks) are kept in sync with the browser's `localStorage` so data survives page refreshes.
+- Custom events and feedback toasts are triggered via the lightweight `sonner` package to provide immediate, sleek user notifications on all mutations.
+
+### 5. Custom Inline SVG Icons & Pure Styling
+To keep the application fast and avoid visual discrepancies:
+- **No Icon Libraries:** Standard icon libraries (e.g., `lucide-react`) were avoided in favor of hand-tuned inline SVGs in `src/components/Icons.tsx`.
+- **Pure Styling:** Styling is built with Tailwind CSS (v4) and native CSS transitions. Skeleton shimmer loaders run on mount to mock data fetching before smoothly transitioning to the full board view.
+
+---
+
+## Folder Structure
+
+```text
+src/
+├── app/
+│   ├── globals.css      # Core styles, Tailwind setup, animations (shimmer, slideDown)
+│   ├── layout.tsx       # Root layout containing SEO metadata & Toast wrappers
+│   └── page.tsx         # Main entry point with Suspense shell
+├── components/
+│   ├── Icons.tsx        # Optimized custom SVG icon library
+│   ├── KanbanBoard.tsx  # Search, sort, priority filters, and layout tabs
+│   ├── KanbanColumn.tsx # Column components handling drag-and-drop targets
+│   ├── KanbanCard.tsx   # Card representations, delete actions, priority tags
+│   ├── TaskModal.tsx    # Modal form handling task creation and editing
+│   └── SkeletonLoader.tsx # Loading skeleton shown on initialization
+└── hooks/
+    └── useKanbanData.ts # Centralized hooks for tasks, state mutations, and storage
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## How to Run the Solution
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Ensure you have **Node.js (version 18 or above)** installed on your machine.
 
-## Learn More
+### 1. Install Dependencies
+Navigate to the project root and run:
+```bash
+npm install
+```
 
-To learn more about Next.js, take a look at the following resources:
+### 2. Run the Development Server
+Start the Next.js development server:
+```bash
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) in your web browser to interact with the Kanban board.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 3. Build for Production
+To build the application for production, run:
+```bash
+npm run build
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Once the build finishes successfully, start the production server locally:
+```bash
+npm run start
+```
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 4. Linting
+Verify code styling and catch any syntax or TypeScript errors:
+```bash
+npm run lint
+```
