@@ -147,35 +147,49 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
       </header>
 
       {/* Toolbar (Tabs & Controls) */}
-      <div className="bg-white px-6 md:px-10 border-b border-[#ECEEF0] flex flex-col sm:flex-row gap-4 items-stretch justify-between shrink-0 select-none min-h-[52px]">
+      <div className="bg-white px-6 md:px-10 border-b border-[#ECEEF0] flex flex-col sm:flex-row gap-0 sm:gap-4 items-stretch justify-between shrink-0 select-none min-h-[52px]">
         {/* View Tabs */}
-        <div className="flex items-stretch gap-6 w-full sm:w-auto">
-          {[
-            { id: "board", label: "Board", icon: BoardTabIcon },
-            { id: "list", label: "List", icon: ListTabIcon },
-            { id: "table", label: "Table", icon: TableTabIcon },
-          ].map((tab) => {
-            const Icon = tab.icon;
-            const isActive = activeTab === tab.id;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
-                className={`flex items-center gap-2 px-1 h-full border-b-2 -mb-[1px] text-[14px] font-semibold transition-all cursor-pointer py-3.5 sm:py-0 ${
-                  isActive
-                    ? "border-brand-primary text-brand-primary font-bold"
-                    : "border-transparent text-[#5C6370] hover:text-[#1A1C1E]"
-                }`}
-              >
-                <Icon size={16} className={isActive ? "text-brand-primary" : "text-[#8E95A2]"} />
-                <span>{tab.label}</span>
-              </button>
-            );
-          })}
+        <div className="flex items-stretch justify-between sm:justify-start gap-6 w-full sm:w-auto">
+          <div className="flex items-stretch gap-6">
+            {[
+              { id: "board", label: "Board", icon: BoardTabIcon },
+              { id: "list", label: "List", icon: ListTabIcon },
+              { id: "table", label: "Table", icon: TableTabIcon },
+            ].map((tab) => {
+              const Icon = tab.icon;
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id as any)}
+                  className={`flex items-center gap-2 px-1 h-full border-b-2 -mb-[1px] text-[14px] font-semibold transition-all cursor-pointer py-3.5 sm:py-0 ${
+                    isActive
+                      ? "border-brand-primary text-brand-primary font-bold"
+                      : "border-transparent text-[#5C6370] hover:text-[#1A1C1E]"
+                  }`}
+                >
+                  <Icon size={16} className={isActive ? "text-brand-primary" : "text-[#8E95A2]"} />
+                  <span>{tab.label}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Mobile Filters Toggle Button */}
+          <button
+            onClick={() => setShowMobileFilters(!showMobileFilters)}
+            className={`sm:hidden flex items-center justify-center px-3 py-1.5 text-[#5C6370] hover:text-[#1A1C1E] active:scale-95 transition-all cursor-pointer self-center rounded-lg border my-2 ${
+              showMobileFilters ? "bg-gray-100 border-gray-300 text-[#1A1C1E]" : "bg-white border-[#ECEEF0]"
+            }`}
+            title="Toggle search and filters"
+          >
+            <FilterIcon size={14} className="mr-1.5 shrink-0" />
+            <span className="text-xs font-semibold">Filters</span>
+          </button>
         </div>
 
         {/* Filter, Sort & Search */}
-        <div className="flex flex-wrap items-center gap-5 py-2.5 w-full sm:w-auto">
+        <div className={`flex-wrap items-center gap-4 py-3 sm:py-2.5 w-full sm:w-auto sm:flex border-t border-[#ECEEF0] sm:border-t-0 ${showMobileFilters ? "flex animate-slide-down" : "hidden"}`}>
           {/* Reset Board button */}
           <button
             onClick={onResetBoard}
@@ -238,6 +252,17 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
             )}
           </div>
         </div>
+
+        {/* Slide-down Keyframe definition inline */}
+        <style>{`
+          @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+          .animate-slide-down {
+            animation: slideDown 0.2s ease-out forwards;
+          }
+        `}</style>
       </div>
 
 
