@@ -18,11 +18,9 @@ export const TaskModal: React.FC<TaskModalProps> = ({
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  // Modal mode: "create" | "edit" | null
   const [mode, setMode] = useState<"create" | "edit" | null>(null);
   const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
 
-  // Form Fields State
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [column, setColumn] = useState<ColumnType>("todo");
@@ -30,10 +28,8 @@ export const TaskModal: React.FC<TaskModalProps> = ({
   const [dueDate, setDueDate] = useState("");
   const [selectedAssignees, setSelectedAssignees] = useState<Assignee[]>([]);
 
-  // Validation Errors
   const [errors, setErrors] = useState<{ title?: string; description?: string }>({});
 
-  // Sync state with URL Search Params
   useEffect(() => {
     const modalParam = searchParams.get("modal");
     const taskIdParam = searchParams.get("taskId");
@@ -41,15 +37,13 @@ export const TaskModal: React.FC<TaskModalProps> = ({
     if (modalParam === "create-task") {
       setMode("create");
       setEditingTaskId(null);
-      // Reset fields for new task
       setTitle("");
       setDescription("");
       setColumn("todo");
       setPriority("low");
-      // Set default due date to today
       const today = new Date().toISOString().split("T")[0];
       setDueDate(today);
-      setSelectedAssignees([TEAM_MEMBERS[0]]); // Emma Jeff default
+      setSelectedAssignees([TEAM_MEMBERS[0]]);
       setErrors({});
     } else if (modalParam === "edit-task" && taskIdParam) {
       const taskToEdit = tasks.find((t) => t.id === taskIdParam);
@@ -61,13 +55,11 @@ export const TaskModal: React.FC<TaskModalProps> = ({
         setColumn(taskToEdit.column);
         setPriority(taskToEdit.priority);
         
-        // Convert display date "29 Jan 2025" back to "YYYY-MM-DD" for HTML5 Date Input
         const formattedDate = parseDisplayDateToInputDate(taskToEdit.dueDate);
         setDueDate(formattedDate);
         setSelectedAssignees(taskToEdit.assignees);
         setErrors({});
       } else {
-        // If task not found, close modal
         closeModal();
       }
     } else {
@@ -83,7 +75,6 @@ export const TaskModal: React.FC<TaskModalProps> = ({
     router.push(pathname + (params.toString() ? `?${params.toString()}` : ""));
   };
 
-  // Date converters
   const parseDisplayDateToInputDate = (displayDate: string): string => {
     try {
       const parts = displayDate.split(" ");
@@ -132,7 +123,6 @@ export const TaskModal: React.FC<TaskModalProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Client-side Validation
     const newErrors: { title?: string; description?: string } = {};
     if (!title.trim()) {
       newErrors.title = "Task Title cannot be empty";
@@ -180,7 +170,6 @@ export const TaskModal: React.FC<TaskModalProps> = ({
         className="bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden border border-[#E5E7EB] flex flex-col max-h-[90vh] animate-scale-up"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-[#F1F3F5] select-none shrink-0">
           <h2 className="text-[17px] font-bold text-[#1A1C1E] tracking-tight">
             {mode === "create" ? "Create New Task" : "Edit Task"}
@@ -194,9 +183,7 @@ export const TaskModal: React.FC<TaskModalProps> = ({
           </button>
         </div>
 
-        {/* Form Body */}
         <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto px-6 py-5 space-y-5">
-          {/* Title Input */}
           <div className="space-y-1.5">
             <label htmlFor="task-title" className="text-xs font-bold uppercase tracking-wider text-[#8E95A2]">
               Task Title <span className="text-red-500">*</span>
@@ -221,7 +208,6 @@ export const TaskModal: React.FC<TaskModalProps> = ({
             )}
           </div>
 
-          {/* Description Input */}
           <div className="space-y-1.5">
             <label htmlFor="task-desc" className="text-xs font-bold uppercase tracking-wider text-[#8E95A2]">
               Description <span className="text-red-500">*</span>
@@ -246,9 +232,7 @@ export const TaskModal: React.FC<TaskModalProps> = ({
             )}
           </div>
 
-          {/* Grid fields: Column & Priority */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {/* Column Selector */}
             <div className="space-y-1.5">
               <label htmlFor="task-col" className="text-xs font-bold uppercase tracking-wider text-[#8E95A2]">
                 Column
@@ -265,7 +249,6 @@ export const TaskModal: React.FC<TaskModalProps> = ({
               </select>
             </div>
 
-            {/* Priority Selector */}
             <div className="space-y-1.5">
               <label htmlFor="task-priority" className="text-xs font-bold uppercase tracking-wider text-[#8E95A2]">
                 Priority
@@ -283,7 +266,6 @@ export const TaskModal: React.FC<TaskModalProps> = ({
             </div>
           </div>
 
-          {/* Due Date field */}
           <div className="space-y-1.5">
             <label htmlFor="task-date" className="text-xs font-bold uppercase tracking-wider text-[#8E95A2]">
               Due Date
@@ -297,7 +279,6 @@ export const TaskModal: React.FC<TaskModalProps> = ({
             />
           </div>
 
-          {/* Assignees selector */}
           <div className="space-y-2">
             <label className="text-xs font-bold uppercase tracking-wider text-[#8E95A2]">
               Assign Team Members
@@ -329,7 +310,6 @@ export const TaskModal: React.FC<TaskModalProps> = ({
             </div>
           </div>
 
-          {/* Actions footer */}
           <div className="pt-4 border-t border-[#F1F3F5] flex items-center justify-end gap-3 select-none">
             <button
               onClick={closeModal}

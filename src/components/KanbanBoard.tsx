@@ -25,21 +25,18 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  // Search, Filter, Sort State
   const [searchQuery, setSearchQuery] = useState("");
   const [priorityFilter, setPriorityFilter] = useState<"all" | Priority>("all");
   const [sortBy, setSortBy] = useState<SortOption>("none");
   const [activeTab, setActiveTab] = useState<"board" | "list" | "table">("board");
   const [showMobileFilters, setShowMobileFilters] = useState(false);
 
-  // Open "Create Task" modal by syncing with URL
   const handleOpenCreateModal = () => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("modal", "create-task");
     router.push(pathname + "?" + params.toString());
   };
 
-  // Open "Edit Task" modal by syncing with URL
   const handleOpenEditModal = (task: Task) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("modal", "edit-task");
@@ -47,7 +44,6 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
     router.push(pathname + "?" + params.toString());
   };
 
-  // Helper to parse "29 Jan 2025" for sorting
   const parseDueDate = (dateStr: string): number => {
     try {
       const parts = dateStr.split(" ");
@@ -62,11 +58,9 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
     }
   };
 
-  // Filter & Sort Tasks
   const processedTasks = useMemo(() => {
     let result = [...tasks];
 
-    // 1. Filter by Search Query
     if (searchQuery.trim() !== "") {
       const query = searchQuery.toLowerCase();
       result = result.filter(
@@ -76,12 +70,10 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
       );
     }
 
-    // 2. Filter by Priority
     if (priorityFilter !== "all") {
       result = result.filter((task) => task.priority === priorityFilter);
     }
 
-    // 3. Sort
     if (sortBy === "title") {
       result.sort((a, b) => a.title.localeCompare(b.title));
     } else if (sortBy === "dueDate") {
@@ -96,14 +88,12 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
     return result;
   }, [tasks, searchQuery, priorityFilter, sortBy]);
 
-  // Divide tasks into columns
   const todoTasks = useMemo(() => processedTasks.filter((t) => t.column === "todo"), [processedTasks]);
   const progressTasks = useMemo(() => processedTasks.filter((t) => t.column === "progress"), [processedTasks]);
   const completedTasks = useMemo(() => processedTasks.filter((t) => t.column === "completed"), [processedTasks]);
 
   return (
     <div className="flex-1 flex flex-col overflow-hidden bg-[#F8F9FA]">
-      {/* Top Header */}
       <header className="bg-white px-6 md:px-10 py-6 shrink-0">
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between w-full">
@@ -127,7 +117,6 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
               </h1>
             </div>
 
-            {/* Create Task Button */}
             <div className="flex items-center select-none shrink-0">
               <button
                 onClick={handleOpenCreateModal}
@@ -146,9 +135,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
         </div>
       </header>
 
-      {/* Toolbar (Tabs & Controls) */}
       <div className="bg-white px-6 md:px-10 border-b border-[#ECEEF0] flex flex-col lg:flex-row gap-0 lg:gap-4 items-stretch justify-between shrink-0 select-none min-h-[52px]">
-        {/* View Tabs */}
         <div className="flex items-stretch justify-between lg:justify-start gap-6 w-full lg:w-auto">
           <div className="flex items-stretch gap-6">
             {[
@@ -175,7 +162,6 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
             })}
           </div>
 
-          {/* Mobile Filters Toggle Button */}
           <button
             onClick={() => setShowMobileFilters(!showMobileFilters)}
             className={`lg:hidden flex items-center justify-center px-3 py-1.5 text-[#5C6370] hover:text-[#1A1C1E] active:scale-95 transition-all cursor-pointer self-center rounded-lg border my-2 ${
@@ -188,9 +174,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
           </button>
         </div>
 
-        {/* Filter, Sort & Search */}
         <div className={`flex-wrap items-center gap-4 py-3 lg:py-2.5 w-full lg:w-auto lg:flex border-t border-[#ECEEF0] lg:border-t-0 ${showMobileFilters ? "flex animate-slide-down" : "hidden"}`}>
-          {/* Reset Board button */}
           <button
             onClick={onResetBoard}
             className="px-3.5 py-2.5 text-xs font-semibold text-gray-500 hover:text-brand-primary hover:bg-gray-50 border border-[#ECEEF0] rounded-lg transition-colors cursor-pointer"
@@ -199,7 +183,6 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
             Reset Default
           </button>
 
-          {/* Filter Priority Selector */}
           <div className="relative flex items-center bg-white border border-[#ECEEF0] rounded-lg px-3 py-2 text-xs font-semibold text-[#5C6370] hover:border-gray-300 transition-colors focus-within:border-brand-primary focus-within:ring-2 focus-within:ring-brand-primary/10 cursor-pointer">
             <FilterIcon size={14} className="text-[#8E95A2] mr-1.5 shrink-0" />
             <select
@@ -215,7 +198,6 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
             <div className="absolute right-2.5 pointer-events-none text-gray-400 text-[8px]">▼</div>
           </div>
 
-          {/* Sort Selector */}
           <div className="relative flex items-center bg-white border border-[#ECEEF0] rounded-lg px-3 py-2 text-xs font-semibold text-[#5C6370] hover:border-gray-300 transition-colors focus-within:border-brand-primary focus-within:ring-2 focus-within:ring-brand-primary/10 cursor-pointer">
             <SortIcon size={14} className="text-[#8E95A2] mr-1.5 shrink-0" />
             <select
@@ -232,7 +214,6 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
             <div className="absolute right-2.5 pointer-events-none text-gray-400 text-[8px]">▼</div>
           </div>
 
-          {/* Search Box */}
           <div className="relative flex-1 sm:flex-initial flex items-center bg-[#FAFBFB] border border-[#ECEEF0] rounded-lg px-3 py-2 focus-within:bg-white focus-within:border-brand-primary focus-within:ring-2 focus-within:ring-brand-primary/10 transition-all min-w-[180px]">
             <SearchIcon className="text-[#8E95A2] mr-2 shrink-0" />
             <input
@@ -253,7 +234,6 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
           </div>
         </div>
 
-        {/* Slide-down Keyframe definition inline */}
         <style>{`
           @keyframes slideDown {
             from { opacity: 0; transform: translateY(-10px); }
@@ -265,8 +245,6 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
         `}</style>
       </div>
 
-
-      {/* Main Columns Workspace */}
       <div className="flex-1 overflow-x-auto p-6 md:p-10 select-none custom-scrollbar">
         {activeTab === "board" ? (
           <div className="flex lg:grid lg:grid-cols-3 gap-6 h-full items-start w-full snap-x snap-mandatory overflow-x-auto lg:overflow-x-visible pb-4 lg:pb-0 scroll-smooth">

@@ -118,11 +118,9 @@ export const useKanbanData = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   
-  // Ref to keep track of current tasks for use inside intervals/callbacks
   const tasksRef = useRef<Task[]>([]);
   tasksRef.current = tasks;
 
-  // Load initial tasks
   useEffect(() => {
     const savedTasks = localStorage.getItem(LOCAL_STORAGE_KEY);
     
@@ -137,7 +135,6 @@ export const useKanbanData = () => {
       setTasks(INITIAL_TASKS);
     }
     
-    // Simulate loading for loading skeleton demo
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 1200);
@@ -145,15 +142,11 @@ export const useKanbanData = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Save tasks to localStorage when state changes
   const saveTasks = useCallback((newTasks: Task[]) => {
     setTasks(newTasks);
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newTasks));
   }, []);
 
-
-
-  // Add Task
   const addTask = useCallback((taskData: Omit<Task, "id" | "commentsCount" | "attachmentsCount">) => {
     const newTask: Task = {
       ...taskData,
@@ -170,7 +163,6 @@ export const useKanbanData = () => {
     return newTask;
   }, [saveTasks]);
 
-  // Update Task Column
   const updateTaskColumn = useCallback((taskId: string, newColumn: ColumnType) => {
     const currentTasks = tasksRef.current;
     const taskIndex = currentTasks.findIndex((t) => t.id === taskId);
@@ -191,7 +183,6 @@ export const useKanbanData = () => {
     });
   }, [saveTasks]);
 
-  // Edit Task
   const editTask = useCallback((taskId: string, updatedFields: Partial<Task>) => {
     const currentTasks = tasksRef.current;
     const updatedTasks = currentTasks.map((t) => {
@@ -204,7 +195,6 @@ export const useKanbanData = () => {
     saveTasks(updatedTasks);
   }, [saveTasks]);
 
-  // Delete Task
   const deleteTask = useCallback((taskId: string) => {
     const currentTasks = tasksRef.current;
     const task = currentTasks.find((t) => t.id === taskId);
@@ -218,7 +208,6 @@ export const useKanbanData = () => {
     });
   }, [saveTasks]);
 
-  // Reset Board to default
   const resetBoard = useCallback(() => {
     saveTasks(INITIAL_TASKS);
     toast.success("Board Reset", {

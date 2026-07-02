@@ -25,7 +25,6 @@ export const KanbanCard: React.FC<KanbanCardProps> = ({
     e.dataTransfer.setData("text/plain", task.id);
     e.dataTransfer.effectAllowed = "move";
     
-    // Add dragging class to element after a tiny delay so the drag image matches the original card
     setTimeout(() => {
       const el = document.getElementById(`card-${task.id}`);
       if (el) el.classList.add("card-dragging");
@@ -38,7 +37,6 @@ export const KanbanCard: React.FC<KanbanCardProps> = ({
     if (el) el.classList.remove("card-dragging");
   };
 
-  // Get Priority Badge styles & icons based on priority level
   const getPriorityConfig = () => {
     switch (task.priority) {
       case "low":
@@ -56,7 +54,7 @@ export const KanbanCard: React.FC<KanbanCardProps> = ({
       case "high":
         return {
           bg: "bg-[#FEE2E2] text-[#DC2626]",
-          icon: <FlagIcon className="w-3.5 h-3.5 shrink-0" />, // High uses FlagIcon as in the design image
+          icon: <FlagIcon className="w-3.5 h-3.5 shrink-0" />,
           label: "High",
         };
     }
@@ -73,7 +71,6 @@ export const KanbanCard: React.FC<KanbanCardProps> = ({
       className={`group relative bg-white border border-[#ECEEF0] rounded-xl p-4.5 shadow-sm hover:shadow-md hover:border-[#D1D5DB] transition-all duration-200 cursor-grab active:cursor-grabbing animate-card-fade-in`}
       style={{ animationDelay: `${index * 0.1}s` }}
     >
-      {/* Priority Tag & Due Date */}
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <div className={`flex items-center gap-1.5 px-2.5 py-0.5 rounded text-xs font-semibold select-none ${priority.bg}`}>
@@ -81,7 +78,6 @@ export const KanbanCard: React.FC<KanbanCardProps> = ({
             <span>{priority.label}</span>
           </div>
 
-          {/* Quick Move Controls (Touch Fallback) */}
           <div className="flex items-center gap-1">
             {task.column !== "todo" && (
               <button
@@ -124,7 +120,6 @@ export const KanbanCard: React.FC<KanbanCardProps> = ({
         </div>
       </div>
 
-      {/* Task Content */}
       <div className="mb-3 space-y-1.5 cursor-pointer" onClick={() => onEdit?.(task)}>
         <h4 className="text-[15px] font-semibold text-[#1A1C1E] tracking-tight leading-snug group-hover:text-brand-primary transition-colors">
           {task.title}
@@ -134,12 +129,9 @@ export const KanbanCard: React.FC<KanbanCardProps> = ({
         </p>
       </div>
 
-      {/* Divider */}
       <div className="border-t border-[#F1F3F5] my-3" />
 
-      {/* Footer (Comments, Attachments, Assignees) */}
       <div className="flex items-center justify-between">
-        {/* Comments & Attachments */}
         <div className="flex items-center gap-3 text-xs text-[#8E95A2] font-semibold select-none">
           <div className="flex items-center gap-1">
             <CommentIcon className="w-3.5 h-3.5" />
@@ -153,7 +145,6 @@ export const KanbanCard: React.FC<KanbanCardProps> = ({
           )}
         </div>
 
-        {/* Assignees */}
         <div className="flex items-center -space-x-1.5 select-none">
           {task.assignees.map((assignee, idx) => (
             <div
@@ -167,7 +158,6 @@ export const KanbanCard: React.FC<KanbanCardProps> = ({
         </div>
       </div>
 
-      {/* Delete / Actions floating button (visible on hover) */}
       <div className="absolute top-2.5 right-2.5 opacity-0 group-hover:opacity-100 transition-opacity duration-150 flex items-center gap-1.5">
         {showDeleteConfirm ? (
           <div className="flex items-center bg-white border border-red-200 rounded-lg shadow-lg overflow-hidden py-0.5 px-1.5 gap-1.5 text-[10px] font-semibold z-10">

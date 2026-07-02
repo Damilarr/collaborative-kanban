@@ -1,36 +1,36 @@
 # Alignio Tasks — Collaborative Kanban Board
 
-Alignio Tasks is a high-fidelity, fully responsive Kanban board application built using **Next.js**, **React 19**, and **Tailwind CSS**. It is designed to model professional task workflows with a premium design aesthetic, featuring native drag-and-drop mechanics, client-side validation, and URL-synchronized modal state.
+Alignio Tasks is a high-fidelity, fully responsive Kanban board application I built using **Next.js**, **React 19**, and **Tailwind CSS**. I designed it to model professional task workflows with a premium design aesthetic, featuring native drag-and-drop mechanics, client-side validation, and URL-synchronized modal state.
 
 ---
 
 ## Architectural Decisions
 
 ### 1. Framework: Next.js (App Router) & React 19
-The project leverages the Next.js App Router for page layouts and standard client-side state hooks. Using React 19 keeps the app aligned with the latest performance and rendering enhancements. The application structure remains clean and easy to scale:
+I leveraged the Next.js App Router for page layouts and standard client-side state hooks. Using React 19 keeps the app aligned with the latest performance and rendering enhancements. I designed a clean, modular structure:
 - `page.tsx` acts as the entry shell using a `<Suspense>` wrapper.
 - Modular component design separates the board wrapper, columns, cards, and modal forms.
 
 ### 2. Zero-Dependency Custom Drag-and-Drop
-Instead of importing large, opinionated third-party libraries (e.g., `react-beautiful-dnd`, `@dnd-kit`, or `react-dnd`), we implemented a native **HTML5 Drag and Drop** interface.
-- **Why?** It ensures minimal JS bundle overhead, provides direct control over native styling triggers, and runs at native browser speeds.
-- **Details:** Uses event handlers like `onDragStart`, `onDragEnd`, `onDragOver`, and `onDrop`. Column drop zones outline themselves with a dashed border and an orange-tinted background highlight when cards are hovered over them. Cards scale down and fade slightly when dragged.
+Instead of importing large, opinionated third-party libraries (e.g., `react-beautiful-dnd`, `@dnd-kit`, or `react-dnd`), I implemented a native **HTML5 Drag and Drop** interface.
+- **Why?** It ensures minimal JS bundle overhead, gives me direct control over styling triggers, and runs at native browser speeds.
+- **Details:** I used event handlers like `onDragStart`, `onDragEnd`, `onDragOver`, and `onDrop`. Column drop zones outline themselves with a dashed border and an orange-tinted background highlight when cards are hovered over them. Cards scale down and fade slightly when dragged.
 
 ### 3. URL-Synchronized Modal State
-The state of the **Create Task** and **Edit Task** modals is synchronized with the browser's URL search parameters:
+I synchronized the state of the **Create Task** and **Edit Task** modals with the browser's URL search parameters:
 - `?modal=create-task` opens the creation form.
 - `?modal=edit-task&taskId=task-id` opens the edit form for that specific task.
 - **Why?** Deep-linking ensures that page reloads or shared links preserve the modal's open state, improving usability and preventing state loss when refreshing.
 
 ### 4. Client-Side Persistent State via Custom Hooks
-The core business logic of managing tasks is centralized in `src/hooks/useKanbanData.ts`.
+I centralized the core business logic of managing tasks in `src/hooks/useKanbanData.ts`.
 - State operations (adding, editing, updating columns, and deleting tasks) are kept in sync with the browser's `localStorage` so data survives page refreshes.
-- Custom events and feedback toasts are triggered via the lightweight `sonner` package to provide immediate, sleek user notifications on all mutations.
+- I used the lightweight `sonner` package to trigger interactive toasts and notifications on all task mutations.
 
 ### 5. Custom Inline SVG Icons & Pure Styling
 To keep the application fast and avoid visual discrepancies:
-- **No Icon Libraries:** Standard icon libraries (e.g., `lucide-react`) were avoided in favor of hand-tuned inline SVGs in `src/components/Icons.tsx`.
-- **Pure Styling:** Styling is built with Tailwind CSS (v4) and native CSS transitions. Skeleton shimmer loaders run on mount to mock data fetching before smoothly transitioning to the full board view.
+- **No Icon Libraries:** I avoided standard icon libraries (e.g., `lucide-react`) in favor of hand-tuned inline SVGs in `src/components/Icons.tsx`.
+- **Pure Styling:** I built the interface with Tailwind CSS (v4) and native CSS transitions. Skeleton shimmer loaders run on mount to mock data fetching before smoothly transitioning to the full board view.
 
 ---
 

@@ -45,7 +45,6 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
     }
   };
 
-  // Get dot color for column headers
   const getDotClass = () => {
     switch (columnType) {
       case "todo":
@@ -67,20 +66,15 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
         isDragOver ? "drag-over" : ""
       }`}
     >
-      {/* Column Header */}
       <div className="flex items-center justify-between mb-4 pb-2 border-b border-[#F1F3F5] select-none">
         <div className="flex items-center gap-2">
-          {/* Dot */}
           <span className={`w-2 h-2 rounded-full ${getDotClass()}`} />
-          {/* Title */}
           <h3 className="font-semibold text-[15px] text-[#1A1C1E]">{title}</h3>
-          {/* Count Badge */}
           <span className="w-5 h-5 rounded-full border border-brand-border bg-brand-light text-brand-primary text-[11px] font-bold flex items-center justify-center">
             {tasks.length}
           </span>
         </div>
         
-        {/* Actions Menu */}
         <button
           type="button"
           className="text-[#8E95A2] hover:text-[#1A1C1E] hover:bg-gray-100 p-1 rounded-lg transition-colors cursor-pointer"
@@ -90,7 +84,6 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
         </button>
       </div>
 
-      {/* Task Cards Container */}
       <div className="flex-1 overflow-y-auto space-y-3.5 pr-1 no-scrollbar min-h-[100px]">
         {tasks.length === 0 ? (
           <div className="h-full min-h-[120px] border border-dashed border-[#E5E7EB] rounded-xl flex flex-col items-center justify-center p-4 text-center select-none text-gray-400 group/empty">

@@ -42,9 +42,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   return (
     <aside className={wrapperClass}>
-      {/* Upper Section */}
       <div className="flex flex-col flex-1">
-        {/* Logo and Brand */}
         <div className="flex items-center justify-between px-6 mb-8 select-none">
           <div className="flex items-center gap-3 cursor-pointer">
             <LogoIcon size={30} />
@@ -66,7 +64,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
           )}
         </div>
 
-        {/* Navigation Menu */}
         <nav className="flex-1 space-y-1">
           {menuItems.map((item) => {
             const Icon = item.icon;
@@ -93,9 +90,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </nav>
       </div>
 
-      {/* Lower Section */}
       <div className="flex flex-col gap-6 pt-4 border-t border-[#F1F3F5]">
-        {/* Help & Settings */}
         <div className="space-y-1">
           {bottomItems.map((item) => {
             const Icon = item.icon;
@@ -113,13 +108,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
           })}
         </div>
 
-        {/* Profile Card */}
         <div className="px-4">
           <div className="flex items-center justify-between p-3 rounded-xl border border-[#ECEEF0] bg-[#FAFBFB] hover:bg-[#FAF9F6] transition-colors cursor-pointer group">
             <div className="flex items-center gap-3">
-              {/* Profile Image / Initials */}
               <div className="w-10 h-10 rounded-full bg-brand-primary text-white font-bold text-sm flex items-center justify-center border-2 border-white shadow-sm shrink-0 overflow-hidden relative">
-                {/* Fallback to initials if no image */}
                 <span className="font-sans tracking-wider">EJ</span>
                 <img
                   src="/emma_jeff_avatar.jpg"
@@ -138,7 +130,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 </p>
               </div>
             </div>
-            {/* More dots icon */}
             <svg
               className="w-4 h-4 text-[#8E95A2] group-hover:text-brand-primary transition-colors"
               fill="none"
