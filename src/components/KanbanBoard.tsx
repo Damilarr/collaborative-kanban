@@ -158,14 +158,14 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
           {/* Reset Board button */}
           <button
             onClick={onResetBoard}
-            className="px-3.5 py-2 text-xs font-semibold text-gray-500 hover:text-brand-primary hover:bg-gray-50 border border-[#ECEEF0] rounded-xl transition-colors cursor-pointer"
+            className="px-3.5 py-2.5 text-xs font-semibold text-gray-500 hover:text-brand-primary hover:bg-gray-50 border border-[#ECEEF0] rounded-lg transition-colors cursor-pointer"
             title="Reset board to default state"
           >
             Reset Default
           </button>
 
           {/* Filter Priority Selector */}
-          <div className="relative flex items-center bg-white border border-[#ECEEF0] rounded-xl px-3 py-1.5 text-xs font-semibold text-[#5C6370] hover:border-gray-300 transition-colors focus-within:border-brand-primary focus-within:ring-2 focus-within:ring-brand-primary/10 cursor-pointer">
+          <div className="relative flex items-center bg-white border border-[#ECEEF0] rounded-lg px-3 py-2 text-xs font-semibold text-[#5C6370] hover:border-gray-300 transition-colors focus-within:border-brand-primary focus-within:ring-2 focus-within:ring-brand-primary/10 cursor-pointer">
             <FilterIcon size={14} className="text-[#8E95A2] mr-1.5 shrink-0" />
             <select
               value={priorityFilter}
@@ -181,7 +181,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
           </div>
 
           {/* Sort Selector */}
-          <div className="relative flex items-center bg-white border border-[#ECEEF0] rounded-xl px-3 py-1.5 text-xs font-semibold text-[#5C6370] hover:border-gray-300 transition-colors focus-within:border-brand-primary focus-within:ring-2 focus-within:ring-brand-primary/10 cursor-pointer">
+          <div className="relative flex items-center bg-white border border-[#ECEEF0] rounded-lg px-3 py-2 text-xs font-semibold text-[#5C6370] hover:border-gray-300 transition-colors focus-within:border-brand-primary focus-within:ring-2 focus-within:ring-brand-primary/10 cursor-pointer">
             <SortIcon size={14} className="text-[#8E95A2] mr-1.5 shrink-0" />
             <select
               value={sortBy}
@@ -198,7 +198,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
           </div>
 
           {/* Search Box */}
-          <div className="relative flex-1 sm:flex-initial flex items-center bg-[#FAFBFB] border border-[#ECEEF0] rounded-xl px-3 py-1.5 focus-within:bg-white focus-within:border-brand-primary focus-within:ring-2 focus-within:ring-brand-primary/10 transition-all min-w-[180px]">
+          <div className="relative flex-1 sm:flex-initial flex items-center bg-[#FAFBFB] border border-[#ECEEF0] rounded-lg px-3 py-2 focus-within:bg-white focus-within:border-brand-primary focus-within:ring-2 focus-within:ring-brand-primary/10 transition-all min-w-[180px]">
             <SearchIcon className="text-[#8E95A2] mr-2 shrink-0" />
             <input
               type="text"
