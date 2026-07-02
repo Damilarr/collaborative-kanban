@@ -116,6 +116,7 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
               index={idx}
               onDelete={onDeleteTask}
               onEdit={onEditTask}
+              onMoveTask={onDropTask}
             />
           ))
         )}
