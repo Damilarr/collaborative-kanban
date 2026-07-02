@@ -198,20 +198,20 @@ export const FilterIcon: React.FC<IconProps> = ({ size = 18, ...props }) => (
   </svg>
 );
 
-export const SortIcon: React.FC<IconProps> = ({ size = 18, ...props }) => (
+export const SortIcon: React.FC<IconProps> = ({ size = 16, ...props }) => (
   <svg
     width={size}
     height={size}
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    strokeWidth="2.2"
+    strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
   >
-    <path d="M12 3l8 9-8 9-8-9z" />
-    <line x1="12" y1="3" x2="12" y2="21" />
+    <path d="M15 6h6M15 12h4M15 18h2" />
+    <path d="M8 18V4M4 14l4 4 4-4" />
   </svg>
 );
 
