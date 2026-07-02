@@ -30,7 +30,7 @@ function BoardContent() {
 
       {/* Mobile Sidebar Drawer Overlay */}
       {isMobileSidebarOpen && (
-        <div className="fixed inset-0 z-50 md:hidden flex">
+        <div className="fixed inset-0 z-50 lg:hidden flex">
           {/* Backdrop */}
           <div
             className="fixed inset-0 bg-black/40 backdrop-blur-[1px] transition-opacity duration-300"
